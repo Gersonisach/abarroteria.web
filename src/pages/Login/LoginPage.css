@@ -1,0 +1,25 @@
+#form-con-imagen{
+    background-image: url(/src/assets/imagen-supermercado.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.form-sin-imagen-left {
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(100%);
+}
+
+.form-sin-imagen-right {
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(0);
+}
+
+.form-con-imagen-left {
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(0);
+}
+
+.form-con-imagen-right {
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(-100%);
+}

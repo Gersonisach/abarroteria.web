@@ -1,0 +1,5 @@
+.fondo-con-imagen{
+    background-image: url(/src/assets/imagen-supermercado-main.jpg);
+    background-size: cover;
+    background-position: center;
+}
