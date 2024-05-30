@@ -13,29 +13,14 @@ import '../../components/styles/BackgroudImagen.css'
 
 const CreateUsuarioPage = () => {
     const [dataAdministrador, setDataAdministrador] = useState({ usuarioAdmin: '', passwordAdmin: ''});
-    const [dataAdminCreate, setDataAdminCreate] = useState({correo: '', claveUser: '', nombre: '', apellido: '', tipoUsuario: ''});
+    const [dataAdminCreate, setDataAdminCreate] = useState({correo: '', clave: '', nombre: '', apellido: '', tipoUsuario: ''});
     const navigate = useNavigate();
 
     const handleOnClickCrear = async () => {
 
         try {
 
-            const response1 = await axios.get('http://localhost:5000/clientes', { params: dataAdminCreate.correo });
-
-            if (response1.data.code) {
-                Swal.fire({
-                    title: '¡Error al crear detalle orden de compra!',
-                    html: `Se recibió error de la base de datos, código de error Oracle: <b>${response.data.code}</b>`,
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar',
-                    confirmButtonColor: 'orange',
-                    showCancelButton: false,
-                    showCloseButton: false,
-                });
-                return;
-            }
-
-            const response = await axios.post('http://localhost:5000/usuariocreate', {...dataAdminCreate});
+            const response = await axios.post('http://localhost:5000/usuario/create', {...dataAdminCreate});
             
             if(response.data.code){
                 Swal.fire({
@@ -60,7 +45,7 @@ const CreateUsuarioPage = () => {
                 showCloseButton: false,
               });
 
-              setDataAdminCreate({correo: '', claveUser: '', nombre: '', apellido: '', tipoUsuario: ''});
+              setDataAdminCreate({correo: '', clave: '', nombre: '', apellido: '', tipoUsuario: ''});
               
         } catch (error) {
            console.log("🚀 ~ handleOnClickCrear ~ error:", error)
@@ -103,8 +88,8 @@ const CreateUsuarioPage = () => {
                         variant='outlined'
                         color='error'
                         type='password'
-                        value={dataAdminCreate.claveUser}
-                        onChange={(e) => setDataAdminCreate({ ...dataAdminCreate, claveUser: e.target.value })}
+                        value={dataAdminCreate.clave}
+                        onChange={(e) => setDataAdminCreate({ ...dataAdminCreate, clave: e.target.value })}
                     />
                     <TextField
                         name="nombre"

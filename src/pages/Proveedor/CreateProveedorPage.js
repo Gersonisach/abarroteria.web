@@ -7,22 +7,22 @@ import TextField from '../../components/controls/TextField';
 import Button from '../../components/controls/Button';
 import ButtonCancel from '../../components/controls/ButtonCancel';
 import TitleLeft from '../../components/controls/TitleLeft';
+import '../../components/styles/BackgroudImagen.css'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import '../../components/styles/BackgroudImagen.css'
 
 const CreateProveedorPage = () => {
-    const [dataDetalleOrdenCompra, setDataDetalleOrdenCompra] = useState({ idDetalleORdenCompra: '', idOrdenCompra: '', idProducto: '', cantidad: '', precioUnitario: '' });
+    const [dataProveedor, setDataProveedor] = useState({nombre_comercial:'', nombre_representante:'', apellido_representante:'', nit:'', pais_origen:'', telefono:'', direccion:'', correo_electronico:''});
     const navigate = useNavigate();
 
     const handleOnClickCrear = async () => {
 
         try {
-            const response = await axios.post('http://localhost:5000/detalleordencompracreate', { ...dataDetalleOrdenCompra });
+            const response = await axios.post('http://localhost:5000/proveedor/create', { ...dataProveedor });
 
             if (response.data.code) {
                 Swal.fire({
-                    title: '¡Error al crear detalle orden de compra!',
+                    title: '¡Error al crear proveedor!',
                     html: `Se recibió error de la base de datos, código de error Oracle: <b>${response.data.code}</b>`,
                     icon: 'error',
                     confirmButtonText: 'Aceptar',
@@ -34,7 +34,7 @@ const CreateProveedorPage = () => {
             }
 
             Swal.fire({
-                title: '¡Detalle de orden de compra correctamente!',
+                title: '¡Proveedor creado correctamente!',
                 text: 'Proceso fue satisfactorio.',
                 icon: 'success',
                 confirmButtonText: 'Aceptar',
@@ -43,7 +43,7 @@ const CreateProveedorPage = () => {
                 showCloseButton: false,
             });
 
-            setDataDetalleOrdenCompra({ idDetalleORdenCompra: '', idOrdenCompra: '', idProducto: '', cantidad: '', precioUnitario: '' });
+            setDataProveedor({nombre_comercial:'', nombre_representante:'', apellido_representante:'', nit:'', pais_origen:'', telefono:'', direccion:'', correo_electronico:''});
 
         } catch (error) {
             console.log("🚀 ~ handleOnClickCrear ~ error:", error)
@@ -56,49 +56,65 @@ const CreateProveedorPage = () => {
                 <TitleLeft>Crear Proveedor</TitleLeft>
                 <Form sx={{ display: 'grid', gridTemplateColumns: '300px 300px 300px', gridTemplateRows: '70px 70px 70px' }}>
                     <TextField
-                        name="idDetalleORdenCompra"
-                        label="Id Detalle Orden Compra"
+                        label="Nombre Comercial"
                         variant='outlined'
                         color='error'
-                        value={dataDetalleOrdenCompra.idDetalleORdenCompra}
-                        onChange={(e) => setDataDetalleOrdenCompra({ ...dataDetalleOrdenCompra, idDetalleORdenCompra: e.target.value })}
+                        value={dataProveedor.nombre_comercial}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, nombre_comercial: e.target.value })}
                     />
                     <TextField
-                        name="idOrdenCompra"
-                        label="Id Orden Compra"
+                        label="Nombre Representante"
                         variant='outlined'
                         color='error'
-                        value={dataDetalleOrdenCompra.idOrdenCompra}
-                        onChange={(e) => setDataDetalleOrdenCompra({ ...dataDetalleOrdenCompra, idOrdenCompra: e.target.value })}
+                        value={dataProveedor.nombre_representante}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, nombre_representante: e.target.value })}
                     />
                     <TextField
-                        name="idProducto"
-                        label="Id Producto"
+                        label="Apellido Representante"
                         variant='outlined'
                         color='error'
-                        value={dataDetalleOrdenCompra.idProducto}
-                        onChange={(e) => setDataDetalleOrdenCompra({ ...dataDetalleOrdenCompra, idProducto: e.target.value })}
+                        value={dataProveedor.apellido_representante}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, apellido_representante: e.target.value })}
                     />
                     <TextField
-                        name="cantidad"
-                        label="Cantidad"
+                        label="NIT"
                         variant='outlined'
                         color='error'
-                        value={dataDetalleOrdenCompra.cantidad}
-                        onChange={(e) => setDataDetalleOrdenCompra({ ...dataDetalleOrdenCompra, cantidad: e.target.value })}
+                        value={dataProveedor.nit}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, nit: e.target.value })}
                     />
                     <TextField
-                        name="precioUnitario"
-                        label="Precio Unitario"
+                        label="Pais Origen"
                         variant='outlined'
                         color='error'
-                        value={dataDetalleOrdenCompra.precioUnitario}
-                        onChange={(e) => setDataDetalleOrdenCompra({ ...dataDetalleOrdenCompra, precioUnitario: e.target.value })}
+                        value={dataProveedor.pais_origen}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, pais_origen: e.target.value })}
+                    />
+                    <TextField
+                        label="Teléfono"
+                        variant='outlined'
+                        color='error'
+                        value={dataProveedor.telefono}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, telefono: e.target.value })}
+                    />
+                    <TextField
+                        label="Dirección"
+                        variant='outlined'
+                        color='error'
+                        value={dataProveedor.direccion}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, direccion: e.target.value })}
+                    />
+                    <TextField
+                        label="Correo Electrónico"
+                        variant='outlined'
+                        color='error'
+                        value={dataProveedor.correo_electronico}
+                        onChange={(e) => setDataProveedor({ ...dataProveedor, correo_electronico: e.target.value })}
                     />
                 </Form>
                 <Box width={'100%'} gap={'20px'} backgroundColor='none'>
                     <Button variant='contained' width='40%' onClick={handleOnClickCrear}>
-                        Crear Detalle Orden Compra
+                        Crear Proveedor
                     </Button>
                     <ButtonCancel variant='contained' width='40%' onClick={() => navigate('/')}>
                         Cancelar

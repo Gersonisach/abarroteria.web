@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AuthContext from '../../contexts/AuthContext';
 import Swal from 'sweetalert2';
 import '../../components/misc/Nav.css'
+import MenuOptions from '../controls/MenuOptions';
 
 
 export default function SearchAppBar() {
@@ -41,23 +42,6 @@ export default function SearchAppBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar sx={{ backgroundColor: '#B47163', gap: '20px' }}>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{ mr: 2, gap: '10px' }}
-                    >
-                        <MenuIcon />
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                        >
-                            Categorias
-                        </Typography>
-                    </IconButton>
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -68,14 +52,16 @@ export default function SearchAppBar() {
                         />
                     </Search>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '30px', fontSize: '10px' }}>
-                        <NavLink className="nav-link" to="/create-detalle-orden-compra" activeClassName="active">Detalle Orden Compra</NavLink>
-                        <NavLink className="nav-link" to="/create-detalle-pedido" activeClassName="active">Detalle Pedido</NavLink>
-                        <NavLink className="nav-link" to="/create-factura" activeClassName="active">Factura</NavLink>
-                        <NavLink className="nav-link" to="/create-orden-compra" activeClassName="active">Orden Compra</NavLink>
-                        <NavLink className="nav-link" to="/create-pedido" activeClassName="active">Pedido</NavLink>
-                        <NavLink className="nav-link" to="/create-producto" activeClassName="active">Producto</NavLink>
-                        <NavLink className="nav-link" to="/create-proveedor" activeClassName="active">Proveedor</NavLink>
-                        <NavLink className="nav-link" to="/create-tipo-producto" activeClassName="active">Tipo Producto</NavLink>
+                        <MenuOptions nombre={'Proveedor'} action={'proveedor'} />
+                        <MenuOptions nombre={'Orden Compra'} action={'orden-compra'} />
+                        <MenuOptions nombre={'Cliente'} action={'cliente'} />
+                        <MenuOptions nombre={'Tipo Producto'} action={'tipo-producto'} />
+                        <MenuOptions nombre={'Producto'} action={'producto'} />
+                        <MenuOptions nombre={'Usuario'} action={'usuario'} />
+                        <MenuOptions nombre={'Pedido'} action={'pedido'} />
+                        <MenuOptions nombre={'Detalle Orden'} action={'detalle-orden'} />
+                        <MenuOptions nombre={'Factura'} action={'factura'} />
+                        <MenuOptions nombre={'Detalle Pedido'} action={'detalle-pedido'} />
                     </div>
                     <IconButton onClick={handleLogout} color="inherit" sx={{marginLeft:'auto',}}>
                         <LogoutIcon sx={{ fontSize: '35px', cursor: 'pointer', '&:hover': { color: 'black' } }} />

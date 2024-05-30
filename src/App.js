@@ -14,8 +14,22 @@ import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import LayoutPage from './pages/LayoutPage/LayoutPage';
 import PrivateRoute from './components/PrivateRoute';
+import PageCustomizable from './components/PageCustomizable';
 
 function App() {
+  const dataProveedor = {id:'', nombre_comercial:'', nombre_representante:'', apellido_representante:'', nit:'', pais_origen:'', telefono:'', direccion:'', correo_electronico:''}
+  const fieldsProveedor = [
+    { label: 'Nombre Comercial', key: 'nombre_comercial' },
+    { label: 'Nombre Representante', key: 'nombre_representante' },
+    { label: 'Apellido Representante', key: 'apellido_representante' },
+    { label: 'NIT', key: 'nit' },
+    { label: 'Pais Origen', key: 'pais_origen' },
+    { label: 'Teléfono', key: 'telefono' },
+    { label: 'Dirección', key: 'direccion' },
+    { label: 'Correo Electrónico', key: 'correo_electronico' },
+];
+
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -26,15 +40,15 @@ function App() {
           <Route path='/' element={<PrivateRoute />}>
             <Route path="/" element={<LayoutPage />}>
               <Route index element={<HomePage />} />
-              <Route path="create-detalle-orden-compra" element={<CreateDetalleOrdenCompraPage />} />
-              <Route path="create-detalle-pedido" element={<CreateDetallePedidoPage />} />
-              <Route path="create-factura" element={<CreateFacturaPage />} />
-              <Route path="create-orden-compra" element={<CreateOrdenCompraPage />} />
-              <Route path="create-pedido" element={<CreatePedidoPage />} />
-              <Route path="create-producto" element={<CreateProductoPage />} />
-              <Route path="create-proveedor" element={<CreateProveedorPage />} />
-              <Route path="create-tipo-producto" element={<CreateTipoProductoPage />} />
-              
+              <Route path="detalle-orden-compra" element={<CreateDetalleOrdenCompraPage />} />
+              <Route path="detalle-pedido" element={<CreateDetallePedidoPage />} />
+              <Route path="factura" element={<CreateFacturaPage />} />
+              <Route path="orden-compra" element={<CreateOrdenCompraPage />} />
+              <Route path="pedido" element={<CreatePedidoPage />} />
+              <Route path="producto" element={<CreateProductoPage />} />
+              <Route path="tipo-producto" element={<CreateTipoProductoPage />} />
+              <Route path="proveedor/crear" element={<PageCustomizable modo={'crear'} data={dataProveedor} page={'Proveedor'} fields={fieldsProveedor} />} />
+              <Route path="proveedor/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataProveedor} page={'Proveedor'} fields={fieldsProveedor} />} />
             </Route>
           </Route>
         </Routes>

@@ -11,14 +11,14 @@ import TitleLeft from '../../components/controls/TitleLeft';
 import Swal from 'sweetalert2';
 import '../../components/styles/BackgroudImagen.css'
 
-const CrearClientePage = () => {
+const ActualizarClientePage = () => {
     const [dataCliente, setDataCliente] = useState({ clienteId: '', nombre: '', apellido: '', nit: '', paisOrigen: '', telefono: '', direccionEntrega: '', correo: '', noTarjetaCredito: '' });
     const navigate = useNavigate();
 
     const handleOnClickCrear = async () => {
 
         try {
-            const response = await axios.post('http://localhost:5000/cliente/create', {...dataCliente});
+            const response = await axios.post('http://localhost:5000//cliente/update', {...dataCliente});
             
             if(response.data.code){
                 Swal.fire({
@@ -142,4 +142,4 @@ const CrearClientePage = () => {
     );
 };
 
-export default CrearClientePage;
+export default ActualizarClientePage;
