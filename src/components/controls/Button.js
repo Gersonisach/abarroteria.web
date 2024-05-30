@@ -1,17 +1,25 @@
-import {Button as MuiButton, styled } from '@mui/material';
+import { Button as MuiButton, styled } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import React from 'react';
 
-const Button = styled(MuiButton)(({height = 46, width = '100%', colorEdit='#FFFFFF', backgroundColor='#B47163',backgroundColorHover='#B4948E', borderRadius= '10px'}) => ({
-    borderRadius: borderRadius,
-    height: height,
-    width: width,
-    textTransform: 'none',
-    fontWeight: 600,
-    lineHeight: '26px',
-    textAlign: 'left',
-    marginBottom: '15px',
-    color: colorEdit,
-    backgroundColor: backgroundColor,
-    '&:hover':{backgroundColor: backgroundColorHover}
+const StyledButton = styled(MuiButton)(({ theme, ...props }) => ({
+  borderRadius: props.borderRadius || '10px',
+  height: props.height || 46,
+  width: props.width || '100%',
+  textTransform: 'none',
+  fontWeight: 600,
+  lineHeight: '26px',
+  textAlign: 'left',
+  marginBottom: '15px',
+  color: props.colorEdit || '#FFFFFF',
+  backgroundColor: props.backgroundColor || '#B47163',
+  '&:hover': { backgroundColor: props.backgroundColorHover || '#B4948E' },
 }));
+
+const Button = ({ isLoading, children, ...props }) => (
+  <StyledButton {...props} disabled={isLoading}>
+    {isLoading ? <CircularProgress size={24} color="inherit" /> : children}
+  </StyledButton>
+);
 
 export default Button;

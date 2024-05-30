@@ -1,8 +1,8 @@
 import {React, useContext} from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, Typography, InputBase } from '@mui/material';
-import { Menu as MenuIcon, Search as SearchIcon } from '@mui/icons-material';
+import { AppBar, Box, Toolbar, IconButton, InputBase } from '@mui/material';
+import {Search as SearchIcon } from '@mui/icons-material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthContext from '../../contexts/AuthContext';
 import Swal from 'sweetalert2';
@@ -53,11 +53,11 @@ export default function SearchAppBar() {
                     </Search>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '30px', fontSize: '10px' }}>
                         <MenuOptions nombre={'Proveedor'} action={'proveedor'} />
-                        <MenuOptions nombre={'Orden Compra'} action={'orden-compra'} />
-                        <MenuOptions nombre={'Cliente'} action={'cliente'} />
                         <MenuOptions nombre={'Tipo Producto'} action={'tipo-producto'} />
-                        <MenuOptions nombre={'Producto'} action={'producto'} />
+                        <MenuOptions nombre={'Cliente'} action={'cliente'} />
                         <MenuOptions nombre={'Usuario'} action={'usuario'} />
+                        <MenuOptions nombre={'Producto'} action={'producto'} />
+                        <MenuOptions nombre={'Orden Compra'} action={'orden-compra'} />
                         <MenuOptions nombre={'Pedido'} action={'pedido'} />
                         <MenuOptions nombre={'Detalle Orden'} action={'detalle-orden'} />
                         <MenuOptions nombre={'Factura'} action={'factura'} />

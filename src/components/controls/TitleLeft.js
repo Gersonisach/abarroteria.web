@@ -12,7 +12,8 @@ const TitleLeft = styled('h1')({
     fontFamily: 'Nacelle, sans-serif',
     marginLeft: '25px',
     overflowWrap: 'break-word',
-    marginRight:'auto'
+    marginRight:'auto',
+    marginBottom:'35px'
 })
 
 export default TitleLeft;

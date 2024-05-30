@@ -33,12 +33,12 @@ export default function MenuOptions(props) {
   };
 
   const handleBuscarTodos = () => {
-    navigate(props.action + '/obtenertodo');
+    navigate(props.action + '/buscartodo');
     setAnchorEl(null);
   };
 
   const handleBuscarUno = () => {
-    navigate(props.action + '/obteneruno');
+    navigate(props.action + '/buscaruno');
     setAnchorEl(null);
   };
 
