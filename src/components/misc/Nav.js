@@ -1,10 +1,11 @@
 import { React, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, InputBase } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import { AppBar, Box, Toolbar, IconButton } from '@mui/material';
+import { Person as PersonIcon, Home as HomeIcon } from '@mui/icons-material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthContext from '../../contexts/AuthContext';
+import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
 import '../../components/misc/Nav.css'
 import MenuOptions from '../controls/MenuOptions';
@@ -40,18 +41,19 @@ export default function SearchAppBar() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar sx={{ backgroundColor: '#B47163', gap: '20px' }}>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '30px', fontSize: '10px' }}>
+            <AppBar position="fixed">
+                <Toolbar sx={{ backgroundColor: '#B47163', gap: '20px', minHeight: '50px !important' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', fontSize: '11px' }}>
+                        <Button
+                            variant="contained"
+                            onClick={()=> navigate('/')}
+                            startIcon={<HomeIcon fontSize='small'/>}
+                            marginBottom='0px'
+                            height='30px'
+                            sx={{ fontSize: '11px', padding: '5px', backgroundColor: 'transparent', borderRadius: '10px', textTransform: 'none', '&:hover': { backgroundColor: '#827676' }}}
+                        >
+                            Home
+                        </Button>
                         {userData.tipoUsuario !== 'comprador' &&
                             <>
                                 <MenuOptions nombre={'Proveedor'} action={'proveedor'} />
@@ -59,11 +61,11 @@ export default function SearchAppBar() {
                                 <MenuOptions nombre={'Producto'} action={'producto'} />
                                 <MenuOptions nombre={'Orden Compra'} action={'orden-compra'} tieneCancelar={true} />
                                 <MenuOptions nombre={'Detalle Orden'} action={'detalle-orden'} />
-                                
+
                             </>
                         }
                         {userData.tipoUsuario === 'administrador' &&
-                        <MenuOptions nombre={'Usuario'} action={'usuario'} />
+                            <MenuOptions nombre={'Usuario'} action={'usuario'} />
                         }
                         {userData.tipoUsuario !== 'bodeguero' &&
                             <>
@@ -75,53 +77,27 @@ export default function SearchAppBar() {
                         }
 
                     </div>
-                    <IconButton onClick={handleLogout} color="inherit" sx={{ marginLeft: 'auto', }}>
-                        <LogoutIcon sx={{ fontSize: '35px', cursor: 'pointer', '&:hover': { color: 'black' } }} />
-                    </IconButton>
+                    <Logout onClick={handleLogout}>
+                        <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}><PersonIcon fontSize='small' />{userData.nombre}</div>
+                        <IconButton color="inherit">
+                            <LogoutIcon sx={{ fontSize: '20px' }} />
+                        </IconButton>
+                    </Logout>
+
                 </Toolbar>
             </AppBar>
         </Box>
     );
 }
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: '300px',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
+const Logout = styled('div')(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    gap: '5px',
+    fontSize: '13px',
+    color: 'withe',
+    fontWeight: 'bold',
+    marginLeft: 'auto',
+    cursor: 'pointer',
+    '&:hover': { color: '#B4948E' }
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
-    },
-}));

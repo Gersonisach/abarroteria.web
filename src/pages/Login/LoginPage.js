@@ -101,7 +101,8 @@ const LoginPage = () => {
         setDataUsuario({ ...dataUsuario, [key]: e.target.value });
     };
 
-    const handleOnClickIngresar = async () => {
+    const handleOnClickIngresar = async (e) => {
+        e.preventDefault();
         buscarUsuario();
 
     };
@@ -109,7 +110,7 @@ const LoginPage = () => {
     return (
         <BoxMain className='fondo-con-imagen'>
             <Box width='60%' height='70%'>
-                <Form id="form-sin-imagen" flex='1' className={loginCliente ? 'form-sin-imagen-left' : 'form-sin-imagen-right'}>
+                <Form id="form-sin-imagen" flex='1' className={loginCliente ? 'form-sin-imagen-left' : 'form-sin-imagen-right'} onSubmit={(e)=> handleOnClickIngresar(e)}>
                     <Title>{loginCliente ? "Login Cliente" : "Login Administrador"}</Title>
                     <TextField
                         name="correo"
@@ -128,7 +129,7 @@ const LoginPage = () => {
                         value={dataUsuario['clave']}
                         onChange={(e) => handleChange(e, 'clave')}
                     />
-                    <Button variant='contained' onClick={handleOnClickIngresar} isLoading={loader}>
+                    <Button variant='contained' type={'submit'} isLoading={loader}>
                         {loader ? 'Ingresando...' : 'Ingresar'}
                     </Button>
                     {loginCliente &&

@@ -3,3 +3,10 @@
     background-size: cover;
     background-position: center;
 }
+
+.fondo-con-imagen-not-autorized {
+    background-image: url(/src/assets/no-autorice.jpg);
+    background-size: contain; /* Ajusta la imagen dentro del contenedor */
+    background-position: center;
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+}

@@ -7,6 +7,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+*::-webkit-scrollbar-thumb {
+  animation: 3s linear;
+  background: #ddd;
+  border-radius: 10px;
 }
 
 #root{

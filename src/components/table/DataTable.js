@@ -34,7 +34,7 @@ export default function DataTable(props) {
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label="sticky table" sx={{display:'block'}}>
           <TableHead>
             <TableRow>
               <TableCell align="center" colSpan={props.colums.length} sx={{ fontSize: '18px', fontWeight: 'bold' }}>

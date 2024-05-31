@@ -27,6 +27,11 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
             buscarTodo();
         }
 
+        if(modo === 'actualizar' && page==='Cliente' && userData.tipoUsuario === 'comprador'){
+            setId(userData.correo);
+            buscarUno(userData.correo);
+        }
+
         setDataPage({ ...data })
         setId('');
         // eslint-disable-next-line
@@ -126,7 +131,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
         }
     };
 
-    const buscarUno = async () => {
+    const buscarUno = async (id) => {
         try {
             setLoaderBusqueda(true);
 
@@ -178,16 +183,23 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
     };
 
     const handleOnClickBuscar = async () => {
-        buscarUno();
+        buscarUno(id);
     };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleOnClickBuscar();
+        }
+    };
+    
 
     return (
         <BoxMain className='fondo-con-imagen'>
-            <Box flexDirection={'column'} height={'auto'} width={'auto'}>
+            <Box flexDirection={'column'} height={'auto'} width={'auto'} maxWidth={'90%'}>
                 <TitleLeft>{modo === 'crear' ? 'Crear ' : modo === 'actualizar' ? 'Actualizar ' : modo === 'buscartodo' ? 'Buscar Todos ' : modo === 'buscaruno' ? 'Buscar ' : modo === 'cancelar' ? 'Cancelar ' : modo === 'finalizar' ? 'Finalizar ' : 'Eliminar '} {page}</TitleLeft>
                 {modo === 'buscartodo' ? <DataTable name={page} colums={colums} rows={rows} /> :
                     <>
-                        {(modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') &&
+                        {((modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') && (userData.tipoUsuario !== 'comprador' || page !== 'Cliente') ) &&
                             <div style={{ display: 'flex', gap: '20px', marginRight: 'auto', marginLeft: '25px', width: '400px' }}>
                                 <TextField
                                     label={"Busqueda " + page}
@@ -195,6 +207,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                                     color='error'
                                     value={id}
                                     onChange={(e) => setId(e.target.value)}
+                                    onKeyDown={handleKeyPress}
                                 />
                                 <Button isLoading={loaderBusqueda} variant='contained' width='40%' onClick={handleOnClickBuscar}>
                                     Buscar

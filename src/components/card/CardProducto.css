@@ -1,0 +1,189 @@
+#container-main-productocard {
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+    height: 245px;
+    padding: 11px;
+    gap: 7px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 1px -1px #00000033;
+    box-shadow: 0px 1px 1px 0px #00000024;
+    box-shadow: 0px 1px 3px 0px #0000001F;
+    background: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+}
+#container-main-productocard-large {
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+    height: 277px;
+    padding: 11px;
+    gap: 7px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 1px -1px #00000033;
+    box-shadow: 0px 1px 1px 0px #00000024;
+    box-shadow: 0px 1px 3px 0px #0000001F;
+    background: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+}
+#container-desvanecimiento-producto-card{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+#container-img-productocard {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+}
+#imagen-productocard {
+    width: 73px;
+    height: 80px;
+    object-fit: contain;
+}
+#container-informacion-productocard {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+#container-informacion-productocard span {
+    font-weight: bold;
+}
+#codigo-productocard {
+    width: 100%;
+    height: 15px;
+    color: #000000A6;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+#descripcion-productocard {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    width: 100%;
+    height: 33px;
+    overflow: hidden;
+    color: #000000A6;
+    font-size: 10px;
+}
+#precio-promo-productocard .promo-name {
+    display: flex;
+    align-items: center;
+}
+#precio-promo-productocard .promo-name-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 50px);
+}
+#container-precios-productocard {
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+#precio-mayorista-productocard {
+    width: 100%;
+    height: 15px;
+    color: red;
+    font-size: 10px;
+}
+#precio-normal-productocard {
+    width: 100%;
+    height: 15px;
+    color: #00000099;
+    font-size: 10px;
+}
+#garantia-productocard {
+    width: 100%;
+    height: 15px;
+    color: #00000099;
+    font-size: 9px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#precio-efectivo-productocard {
+    width: 100%;
+    height: 15px;
+    color: #FF6B00;
+    font-size: 10px;
+}
+#precio-promo-productocard {
+    width: 100%;
+    height: 15px;
+    color: #00BFFF;
+    font-size: 10px;
+}
+.button-agregar-cotizaciones-productocard {
+    height: 26px;
+    font-size: 9px;
+    margin-bottom: 0px;
+}
+@media screen and (min-width: 775px) {
+    #container-main-productocard {
+        max-width: 213px;
+        height: 330px;
+        padding: 15px;
+    }
+    #container-main-productocard-large {
+        max-width: 213px;
+        height: 375px;
+        padding: 15px;
+    }
+    #container-img-productocard {
+        height: 110px;
+    }
+    #imagen-productocard {
+        width: 103px;
+        height: 110px;
+        object-fit: contain;
+    }
+    #container-informacion-productocard {
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+    #codigo-productocard {
+        font-size: 13px;
+    }
+    #descripcion-productocard {
+        height: 33px;
+        font-size: 13px;
+    }
+    #container-precios-productocard {
+        gap: 10px;
+    }
+    #precio-mayorista-productocard {
+        font-size: 13px;
+    }
+    #precio-normal-productocard {
+        font-size: 13px;
+    }
+    #garantia-productocard {
+        font-size: 11px;
+    }
+    #precio-efectivo-productocard {
+        font-size: 13px;
+    }
+    #precio-promo-productocard {
+        font-size: 13px;
+    }
+    .button-agregar-cotizaciones-productocard {
+        height: 46px;
+        font-size: 13px;
+    }
+}

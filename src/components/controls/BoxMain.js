@@ -7,6 +7,7 @@ const BoxMain = styled(MuiBox)(({height = '100vh', width = '100%',display='flex'
     flexDirection: flexDirection,
     justifyContent: justifyContent,
     alignItems: alignItems,
+    padding: '30px'
   }));
 
 export default BoxMain;

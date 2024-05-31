@@ -10,7 +10,7 @@ const StyledButton = styled(MuiButton)(({ theme, ...props }) => ({
   fontWeight: 600,
   lineHeight: '26px',
   textAlign: 'left',
-  marginBottom: '15px',
+  marginBottom: props.marginBottom || '15px',
   color: props.colorEdit || '#FFFFFF',
   backgroundColor: props.backgroundColor || '#B47163',
   '&:hover': { backgroundColor: props.backgroundColorHover || '#B4948E' },

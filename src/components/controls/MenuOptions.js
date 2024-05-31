@@ -3,9 +3,12 @@ import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { AddCircle as AddIcon, Edit as EditIcon, DeleteForever as DeleteIcon, ManageSearch as SearchAllIcon, Search as SearchIcon, Cancel as CancelIcon } from '@mui/icons-material';
+import { AddCircle as AddIcon, Edit as EditIcon, DeleteForever as DeleteIcon, ManageSearch as 
+  SearchAllIcon, Search as SearchIcon, Cancel as CancelIcon, DownloadDone as DoneIcon,
+  Face as ClienteIcon, AddHome as ProveedorIcon, Inventory as ProductoIcon, Category as TipoProductoIcon, FactCheck as OrdenIcon,
+  ArtTrack as DetalleOrdenIcon, Assignment as PedidoIcon, AssignmentTurnedIn as DetallePedidoIcon, Feed as FacturaIcon,
+  ManageAccounts as UsuarioIcon} from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
 
@@ -66,10 +69,11 @@ export default function MenuOptions(props) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         variant="contained"
-        disableElevation
         onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}
-        sx={{ fontSize: '11px', backgroundColor: '#A78686', borderRadius: '10px', textTransform: 'none', '&:hover': { backgroundColor: '#827676' } }}
+        startIcon={props.action === 'proveedor' ? <ProveedorIcon/> : props.action === 'tipo-producto' ? <TipoProductoIcon/> : props.action === 'producto' ? <ProductoIcon/> :
+        props.action === 'orden-compra' ? <OrdenIcon/> : props.action === 'detalle-orden' ? <DetalleOrdenIcon/> : props.action === 'usuario' ? <UsuarioIcon/> : props.action === 'cliente' ? <ClienteIcon/> :
+        props.action === 'pedido' ? <PedidoIcon/> : props.action === 'detalle-pedido' ? <DetallePedidoIcon/> : <FacturaIcon/>}
+        sx={{ fontSize: '11px', padding:'5px', backgroundColor: 'transparent', borderRadius: '10px', textTransform: 'none', '&:hover': { backgroundColor: '#827676' }, gap:'0px' }}
       >
         {props.nombre}
       </Button>
@@ -108,7 +112,7 @@ export default function MenuOptions(props) {
         }
         {props.tieneFinalizar &&
           <MenuItem onClick={handleFinalizar} disableRipple>
-            <CancelIcon />
+            <DoneIcon />
             Finalizar
           </MenuItem>
         }
