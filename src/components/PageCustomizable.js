@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Box from './controls/Box';
 import BoxMain from './controls/BoxMain';
 import Form from './controls/Form';
@@ -10,13 +10,17 @@ import DataTable from './table/DataTable';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import './styles/BackgroudImagen.css'
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
-const PageCustomizable = ({ modo, data, page, fields, colums }) => {
+const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tieneFinalizar }) => {
     const [dataPage, setDataPage] = useState({ ...data });
     const [id, setId] = useState('');
     const [loader, setLoader] = useState(false);
     const [loaderBusqueda, setLoaderBusqueda] = useState(false);
     const [rows, setRows] = useState([]);
+    const navigate = useNavigate();
+    const { userData } = useContext(AuthContext);
 
     useEffect(() => {
         if (modo === 'buscartodo') {
@@ -24,23 +28,31 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
         }
 
         setDataPage({ ...data })
-            setId('');
-// eslint-disable-next-line
-    }, [modo]);
+        setId('');
+        // eslint-disable-next-line
+    }, [modo, page]);
 
     const handleOnClickAccion = async (action) => {
         try {
             setLoader(true);
-
+            let response;
             if (modo === 'crear') {
-                await axios.post(`http://localhost:5000/${page}/create`, { ...dataPage });
+                response = await axios.post(`http://localhost:5000/${page}/create`, { ...dataPage });
             }
             else if (modo === 'actualizar' || action === 'actualizar') {
-                await axios.post(`http://localhost:5000/${page}/update`, { ...dataPage });
+                response = await axios.post(`http://localhost:5000/${page}/update`, { ...dataPage });
             }
             else if (modo === 'eliminar' || action === 'eliminar') {
-                await axios.post(`http://localhost:5000/${page}/delete`, { ...dataPage });
+                response = await axios.post(`http://localhost:5000/${page}/delete`, { ...dataPage });
             }
+            else if (modo === 'cancelar' || action === 'cancelar') {
+                response = await axios.post(`http://localhost:5000/${page}/cancelar`, { ...dataPage });
+            }
+            else if (modo === 'finalizar' || action === 'finalizar') {
+                response = await axios.post(`http://localhost:5000/${page}/finalizar`, { ...dataPage });
+            }
+
+            console.log(response)
 
             Swal.fire({
                 title: `${page}`,
@@ -77,7 +89,26 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
             let response;
 
             response = await axios.get(`http://localhost:5000/${page}/findall`);
-            setRows(response.data);
+
+            if (userData.tipoUsuario === 'comprador') {
+
+                if (page === 'Pedido' || page === 'Factura') {
+                    const filteredData = response.data.filter(item => item[1] === userData.id_usuario);
+                    setRows(filteredData);
+                }
+                else if (page === 'DetallePedido') {
+                    let response2 = await axios.get(`http://localhost:5000/pedido/findall`);
+                    const pedidosUsuario = response2.data.filter(pedido => pedido[1] === userData.id_usuario).map(pedido => pedido[0]);
+
+                    const filteredData = response.data.filter(detalle => pedidosUsuario.includes(detalle[1]));
+                    setRows(filteredData);
+                }
+            }
+            else {
+                setRows(response.data);
+            }
+
+
 
         } catch (error) {
             Swal.fire({
@@ -106,7 +137,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
             if (data && data.length > 0) {
                 const mappedData = mapArrayToDataPage(data[0], dataPage);
                 setDataPage(mappedData);
-            }else{
+            } else {
                 Swal.fire({
                     title: `¡No se encontro ningún dato!`,
                     html: `No se encontraron datos con busqueda realizada`,
@@ -153,10 +184,10 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
     return (
         <BoxMain className='fondo-con-imagen'>
             <Box flexDirection={'column'} height={'auto'} width={'auto'}>
-                <TitleLeft>{modo === 'crear' ? 'Crear ' : modo === 'actualizar' ? 'Actualizar ' : modo === 'buscartodo' ? 'Buscar Todos ' : modo === 'buscaruno' ? 'Buscar ' : 'Eliminar '} {page}</TitleLeft>
-                {modo === 'buscartodo' ? <DataTable name={page + 'es'} colums={colums} rows={rows} /> :
+                <TitleLeft>{modo === 'crear' ? 'Crear ' : modo === 'actualizar' ? 'Actualizar ' : modo === 'buscartodo' ? 'Buscar Todos ' : modo === 'buscaruno' ? 'Buscar ' : modo === 'cancelar' ? 'Cancelar ' : modo === 'finalizar' ? 'Finalizar ' : 'Eliminar '} {page}</TitleLeft>
+                {modo === 'buscartodo' ? <DataTable name={page} colums={colums} rows={rows} /> :
                     <>
-                        {(modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar') &&
+                        {(modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') &&
                             <div style={{ display: 'flex', gap: '20px', marginRight: 'auto', marginLeft: '25px', width: '400px' }}>
                                 <TextField
                                     label={"Busqueda " + page}
@@ -171,7 +202,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
                             </div>
 
                         }
-                        <Form sx={{ display: 'grid', gridTemplateColumns: '300px 300px 300px', gridTemplateRows: '70px 70px 70px' }}>
+                        <Form sx={{ display: 'grid', gridTemplateColumns: '300px 300px 300px', gridTemplateRows: 'auto' }}>
                             {fields.map(field => (
                                 <TextField
                                     key={field.key}
@@ -180,15 +211,16 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
                                     color='error'
                                     value={dataPage[field.key]}
                                     onChange={(e) => handleChange(e, field.key)}
+                                    type={(field.key === 'contraseña' || field.key === 'clave') ? 'password' : 'text'}
                                 />
                             ))}
                         </Form>
                         {modo !== 'buscaruno' ?
                             <Box width={'100%'} gap={'20px'} backgroundColor='none'>
                                 <Button isLoading={loader} variant='contained' width='40%' onClick={() => handleOnClickAccion('')}>
-                                    {modo === 'crear' ? 'Crear' : modo === 'actualizar' ? 'Actualizar' : modo === 'buscartodo' ? 'Buscar Todo' : modo === 'buscaruno' ? 'Buscar Uno' : 'Eliminar'} {page}
+                                    {modo === 'crear' ? 'Crear' : modo === 'actualizar' ? 'Actualizar' : modo === 'buscartodo' ? 'Buscar Todo' : modo === 'buscaruno' ? 'Buscar Uno' : modo === 'cancelar' ? 'Cancelar' : modo === 'finalizar' ? 'Finalizar' : 'Eliminar'} {page}
                                 </Button>
-                                <ButtonCancel variant='contained' width='40%' onClick={() => setDataPage({ ...data })}>
+                                <ButtonCancel variant='contained' width='40%' onClick={() => navigate('/')}>
                                     Cancelar
                                 </ButtonCancel>
                             </Box>
@@ -200,6 +232,16 @@ const PageCustomizable = ({ modo, data, page, fields, colums }) => {
                                 <Button isLoading={loader} variant='contained' width='40%' onClick={() => handleOnClickAccion('eliminar')}>
                                     Eliminar {page}
                                 </Button>
+                                {tieneCancelar &&
+                                    <Button isLoading={loader} variant='contained' width='40%' onClick={() => handleOnClickAccion('cancelar')}>
+                                        Cancelar {page}
+                                    </Button>
+                                }
+                                {tieneFinalizar &&
+                                    <Button isLoading={loader} variant='contained' width='40%' onClick={() => handleOnClickAccion('finalizar')}>
+                                        Finalizar {page}
+                                    </Button>
+                                }
                             </Box>
                         }
                     </>

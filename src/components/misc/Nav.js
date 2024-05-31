@@ -1,8 +1,8 @@
-import {React, useContext} from 'react';
+import { React, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, InputBase } from '@mui/material';
-import {Search as SearchIcon } from '@mui/icons-material';
+import { Search as SearchIcon } from '@mui/icons-material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthContext from '../../contexts/AuthContext';
 import Swal from 'sweetalert2';
@@ -11,10 +11,10 @@ import MenuOptions from '../controls/MenuOptions';
 
 
 export default function SearchAppBar() {
-    const {logout} = useContext(AuthContext);
+    const { logout, userData } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const handleLogout = () =>{
+    const handleLogout = () => {
 
         Swal.fire({
             title: 'Verificar',
@@ -27,15 +27,15 @@ export default function SearchAppBar() {
             showCancelButton: true,
             showCloseButton: true,
             allowOutsideClick: true,
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 logout();
                 navigate('/login');
-            } 
+            }
 
             return;
-          });
-        
+        });
+
     }
 
     return (
@@ -52,18 +52,30 @@ export default function SearchAppBar() {
                         />
                     </Search>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '30px', fontSize: '10px' }}>
-                        <MenuOptions nombre={'Proveedor'} action={'proveedor'} />
-                        <MenuOptions nombre={'Tipo Producto'} action={'tipo-producto'} />
-                        <MenuOptions nombre={'Cliente'} action={'cliente'} />
+                        {userData.tipoUsuario !== 'comprador' &&
+                            <>
+                                <MenuOptions nombre={'Proveedor'} action={'proveedor'} />
+                                <MenuOptions nombre={'Tipo Producto'} action={'tipo-producto'} />
+                                <MenuOptions nombre={'Producto'} action={'producto'} />
+                                <MenuOptions nombre={'Orden Compra'} action={'orden-compra'} tieneCancelar={true} />
+                                <MenuOptions nombre={'Detalle Orden'} action={'detalle-orden'} />
+                                
+                            </>
+                        }
+                        {userData.tipoUsuario === 'administrador' &&
                         <MenuOptions nombre={'Usuario'} action={'usuario'} />
-                        <MenuOptions nombre={'Producto'} action={'producto'} />
-                        <MenuOptions nombre={'Orden Compra'} action={'orden-compra'} />
-                        <MenuOptions nombre={'Pedido'} action={'pedido'} />
-                        <MenuOptions nombre={'Detalle Orden'} action={'detalle-orden'} />
-                        <MenuOptions nombre={'Factura'} action={'factura'} />
-                        <MenuOptions nombre={'Detalle Pedido'} action={'detalle-pedido'} />
+                        }
+                        {userData.tipoUsuario !== 'bodeguero' &&
+                            <>
+                                <MenuOptions nombre={'Cliente'} action={'cliente'} />
+                                <MenuOptions nombre={'Pedido'} action={'pedido'} tieneCancelar={true} tieneFinalizar={true} />
+                                <MenuOptions nombre={'Detalle Pedido'} action={'detalle-pedido'} />
+                                <MenuOptions nombre={'Factura'} action={'factura'} tieneCancelar={true} />
+                            </>
+                        }
+
                     </div>
-                    <IconButton onClick={handleLogout} color="inherit" sx={{marginLeft:'auto',}}>
+                    <IconButton onClick={handleLogout} color="inherit" sx={{ marginLeft: 'auto', }}>
                         <LogoutIcon sx={{ fontSize: '35px', cursor: 'pointer', '&:hover': { color: 'black' } }} />
                     </IconButton>
                 </Toolbar>

@@ -1,7 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import CrearClientePage from './pages/Clientes/CrearClientePage';
-import CreateUsuarioPage from './pages/Usuario/CreateUsuarioPage';
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import LayoutPage from './pages/LayoutPage/LayoutPage';
@@ -32,18 +30,27 @@ function App() {
     { id: 8, label: 'Correo Electrónico', minWidth: 170 }
   ];
 
-  const dataOrdenCompra = { id_orden_compra:'', id_proveedor: '', fecha_orden:'', id_producto: '', cantidad: '' };
+  const dataOrdenCompra = { id_orden_compra:'', id_proveedor: '', fecha_orden:'', estado_orden:'', id_producto: '', cantidad: '', confirmada_existencia:''};
+
   const fieldsOrdenCompra = [
     { label: 'ID Proveedor', key: 'id_proveedor' },
     { label: 'ID Producto', key: 'id_producto' },
     { label: 'Cantidad', key: 'cantidad' }
   ];
 
+  const fieldsOrdenCompraActualizar = [
+    { label: 'ID Orden Compra', key: 'id_orden_compra' },
+    { label: 'ID Proveedor', key: 'id_proveedor' },
+    { label: 'Fecha Orden', key: 'fecha_orden' },
+    { label: 'Estado Orden', key: 'estado_orden' },
+    { label: 'Confirmada Existencia', key: 'confirmada_existencia' },
+  ];
+
   const columnsOrdenCompra = [
     { id: 0, label: 'ID', minWidth: 170 },
     { id: 1, label: 'ID Proveedor', minWidth: 170 },
-    { id: 2, label: 'ID Producto', minWidth: 170 },
-    { id: 3, label: 'Cantidad', minWidth: 170 }
+    { id: 2, label: 'Fecha Orden', minWidth: 170 },
+    { id: 3, label: 'Estado Orden', minWidth: 170 }
   ];
 
   const dataCliente = { 
@@ -191,6 +198,16 @@ function App() {
     { label: 'ID Producto', key: 'id_producto' },
     { label: 'Cantidad', key: 'cantidad' }
   ];
+
+  const fieldsPedidoUpdate = [
+    { label: 'ID', key: 'id_pedido' },
+    { label: 'ID Usuario', key: 'id_usuario' },
+    { label: 'Fecha Pedido', key: 'fecha_pedido' },
+    { label: 'Monto Total', key: 'monto_total' },
+    { label: 'Estado Pedido', key: 'estado_pedido' },
+    { label: 'ID Producto', key: 'id_producto' },
+    { label: 'Cantidad', key: 'cantidad' }
+  ];
   
   const columnsPedido = [
     { id: 0, label: 'ID Pedido', minWidth: 170 },
@@ -231,6 +248,11 @@ function App() {
   };
   
   const fieldsFactura = [
+    { label: 'ID Usuario', key: 'id_usuario' },
+    { label: 'ID Pedido', key: 'id_pedido' }
+  ];
+
+  const fieldsFacturaUpdate = [
     { label: 'ID Factura', key: 'id_factura' },
     { label: 'ID Usuario', key: 'id_usuario' },
     { label: 'ID Pedido', key: 'id_pedido' }
@@ -273,8 +295,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/create-user-cliente" element={<CrearClientePage />} />
-          <Route path="/create-user-admin" element={<CreateUsuarioPage />} />
+          <Route path="cliente/crear" element={<PageCustomizable modo={'crear'} data={dataCliente} page={'Cliente'} fields={fieldsCliente} />} />
           <Route path='/' element={<PrivateRoute />}>
             <Route path="/" element={<LayoutPage />}>
               <Route index element={<HomePage />} />
@@ -285,12 +306,13 @@ function App() {
               <Route path="proveedor/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataProveedor} page={'Proveedor'} fields={fieldsProveedor} colums={columnsProveedor}/>} />
               
               <Route path="orden-compra/crear" element={<PageCustomizable modo={'crear'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompra} />} />
-              <Route path="orden-compra/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompra} />} />
-              <Route path="orden-compra/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompra} />} />
-              <Route path="orden-compra/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompra} />} />
+              <Route path="orden-compra/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompraActualizar} />} />
+              <Route path="orden-compra/cancelar" element={<PageCustomizable modo={'cancelar'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompraActualizar}/>} />
+              <Route path="orden-compra/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompraActualizar} />} />
+              <Route path="orden-compra/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompraActualizar} tieneCancelar={true}/>} />
               <Route path="orden-compra/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataOrdenCompra} page={'OrdenCompra'} fields={fieldsOrdenCompra} colums={columnsOrdenCompra}/>} />
 
-              <Route path="cliente/crear" element={<PageCustomizable modo={'crear'} data={dataCliente} page={'Cliente'} fields={fieldsCliente} />} />
+              
               <Route path="cliente/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataCliente} page={'Cliente'} fields={fieldsCliente} />} />
               <Route path="cliente/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataCliente} page={'Cliente'} fields={fieldsCliente} />} />
               <Route path="cliente/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataCliente} page={'Cliente'} fields={fieldsCliente} />} />
@@ -315,22 +337,25 @@ function App() {
               <Route path="usuario/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataUsuario} page={'Usuario'} fields={fieldsUsuario} colums={columnsUsuario}/>} />
 
               <Route path="pedido/crear" element={<PageCustomizable modo={'crear'} data={dataPedido} page={'Pedido'} fields={fieldsPedido} />} />
-              <Route path="pedido/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataPedido} page={'Pedido'} fields={fieldsPedido} />} />
-              <Route path="pedido/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataPedido} page={'Pedido'} fields={fieldsPedido} />} />
-              <Route path="pedido/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataPedido} page={'Pedido'} fields={fieldsPedido} />} />
+              <Route path="pedido/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataPedido} page={'Pedido'} fields={fieldsPedidoUpdate} />} />
+              <Route path="pedido/cancelar" element={<PageCustomizable modo={'cancelar'} data={dataPedido} page={'Pedido'} fields={fieldsPedidoUpdate}/>} />
+              <Route path="pedido/finalizar" element={<PageCustomizable modo={'finalizar'} data={dataPedido} page={'Pedido'} fields={fieldsPedidoUpdate}/>} />
+              <Route path="pedido/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataPedido} page={'Pedido'} fields={fieldsPedidoUpdate} />} />
+              <Route path="pedido/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataPedido} page={'Pedido'} fields={fieldsPedidoUpdate} tieneCancelar={true}  tieneFinalizar={true}/>} />
               <Route path="pedido/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataPedido} page={'Pedido'} fields={fieldsPedido} colums={columnsPedido}/>} />
 
-              <Route path="detalle-orden-compra/crear" element={<PageCustomizable modo={'crear'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
-              <Route path="detalle-orden-compra/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
-              <Route path="detalle-orden-compra/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
-              <Route path="detalle-orden-compra/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
-              <Route path="detalle-orden-compra/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} colums={columnsDetalleOrdenCompra}/>} />
+              <Route path="detalle-orden/crear" element={<PageCustomizable modo={'crear'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
+              <Route path="detalle-orden/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
+              <Route path="detalle-orden/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
+              <Route path="detalle-orden/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} />} />
+              <Route path="detalle-orden/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataDetalleOrdenCompra} page={'DetalleOrdenCompra'} fields={fieldsDetalleOrdenCompra} colums={columnsDetalleOrdenCompra}/>} />
 
               <Route path="Factura/crear" element={<PageCustomizable modo={'crear'} data={dataFactura} page={'Factura'} fields={fieldsFactura} />} />
-              <Route path="Factura/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataFactura} page={'Factura'} fields={fieldsFactura} />} />
-              <Route path="Factura/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataFactura} page={'Factura'} fields={fieldsFactura} />} />
-              <Route path="Factura/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataFactura} page={'Factura'} fields={fieldsFactura} />} />
-              <Route path="Factura/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataFactura} page={'Factura'} fields={fieldsFactura} colums={columnsFactura}/>} />
+              <Route path="Factura/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataFactura} page={'Factura'} fields={fieldsFacturaUpdate} />} />
+              <Route path="Factura/eliminar" element={<PageCustomizable modo={'eliminar'} data={dataFactura} page={'Factura'} fields={fieldsFacturaUpdate} />} />
+              <Route path="Factura/cancelar" element={<PageCustomizable modo={'cancelar'} data={dataFactura} page={'Factura'} fields={fieldsFacturaUpdate} />} />
+              <Route path="Factura/buscaruno" element={<PageCustomizable modo={'buscaruno'} data={dataFactura} page={'Factura'} fields={fieldsFacturaUpdate} tieneCancelar={true}/>} />
+              <Route path="Factura/buscartodo" element={<PageCustomizable modo={'buscartodo'} data={dataFactura} page={'Factura'} fields={fieldsFacturaUpdate} colums={columnsFactura}/>} />
 
               <Route path="detalle-pedido/crear" element={<PageCustomizable modo={'crear'} data={dataDetallePedido} page={'DetallePedido'} fields={fieldsDetallePedido} />} />
               <Route path="detalle-pedido/actualizar" element={<PageCustomizable modo={'actualizar'} data={dataDetallePedido} page={'DetallePedido'} fields={fieldsDetallePedido} />} />

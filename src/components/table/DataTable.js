@@ -30,7 +30,7 @@ export default function DataTable(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  console.log(props.rows)
+
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
