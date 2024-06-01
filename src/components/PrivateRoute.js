@@ -11,27 +11,16 @@ function PrivateRoute({ tipoUsuarioPermitido }) {
   }
 
   // Si el tipo de usuario es "comprador", verifica las rutas permitidas para compradores
-  if (userData.tipoUsuario === 'comprador') {
-    if (tipoUsuarioPermitido !== 'comprador') {
-      return <Navigate to="/acceso-no-autorizado" />;
-    }
+  if (userData.tipoUsuario.toLowerCase() === 'comprador') {
+    return <Outlet />;
+  }
+  else if (userData.tipoUsuario.toLowerCase() === 'bodeguero') {
+    return <Outlet />;
+  } 
+  else if (userData.tipoUsuario.toLowerCase() === 'administrador') {
     return <Outlet />;
   }
 
-  // Si el tipo de usuario es "administrador", permite el acceso a todas las rutas
-  if (userData.tipoUsuario === 'administrador') {
-    return <Outlet />;
-  }
-
-  // Si el tipo de usuario es "bodeguero", verifica las rutas permitidas para bodegueros
-  if (userData.tipoUsuario === 'bodeguero') {
-    if (tipoUsuarioPermitido !== 'bodeguero') {
-      return <Navigate to="/acceso-no-autorizado" />;
-    }
-    return <Outlet />;
-  }
-
-  // Si el tipo de usuario no coincide con ninguno de los permitidos, redirige a una página de acceso no autorizado
   return <Navigate to="/acceso-no-autorizado" />;
 }
 

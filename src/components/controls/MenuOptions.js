@@ -86,25 +86,25 @@ export default function MenuOptions(props) {
         open={open}
         onClose={handleClose}
       >
-        {(userData.tipoUsuario !== 'comprador' || props.action === 'pedido') &&
+        {(userData.tipoUsuario.toLowerCase() !== 'comprador' || props.action === 'pedido') &&
           <MenuItem onClick={handleCrear} disableRipple>
             <AddIcon />
             Crear
           </MenuItem>
         }
-        {(userData.tipoUsuario !== 'comprador' || props.action === 'pedido' || props.action === 'cliente') &&
+        {(userData.tipoUsuario.toLowerCase() !== 'comprador' || props.action === 'pedido' || props.action === 'cliente') &&
           <MenuItem onClick={handleActualizar} disableRipple>
             <EditIcon />
             Actualizar
           </MenuItem>
         }
-        {userData.tipoUsuario === 'administrador' &&
+        {userData.tipoUsuario.toLowerCase() === 'administrador' &&
           <MenuItem onClick={handleEliminar} disableRipple>
             <DeleteIcon />
             Eliminar
           </MenuItem>
         }
-        {(props.tieneCancelar && (userData.tipoUsuario !== 'comprador' || props.action === 'pedido')) &&
+        {(props.tieneCancelar && (userData.tipoUsuario.toLowerCase() !== 'comprador' || props.action === 'pedido')) &&
           <MenuItem onClick={handleCancelar} disableRipple>
             <CancelIcon />
             Cancelar
@@ -116,7 +116,7 @@ export default function MenuOptions(props) {
             Finalizar
           </MenuItem>
         }
-        {(userData.tipoUsuario !== 'comprador' || props.action === 'pedido' || props.action === 'detalle-pedido' || props.action === 'factura') &&
+        {(userData.tipoUsuario.toLowerCase() !== 'comprador' || props.action === 'pedido' || props.action === 'detalle-pedido' || props.action === 'factura') &&
           <>
             <Divider sx={{ my: 0.5 }} />
             <MenuItem onClick={handleBuscarTodos} disableRipple>
@@ -125,7 +125,7 @@ export default function MenuOptions(props) {
             </MenuItem>
           </>
         }
-        {userData.tipoUsuario !== 'comprador' &&
+        {userData.tipoUsuario.toLowerCase() !== 'comprador' &&
           <MenuItem onClick={handleBuscarUno} disableRipple>
             <SearchIcon />
             Buscar Uno

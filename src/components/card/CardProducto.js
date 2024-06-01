@@ -21,7 +21,7 @@ const CardProducto = ({ producto }) => {
     let rutaImagen;
 
     try {
-        rutaImagen = require(`../../assets/imagenes-productos/${producto[1]}.png`);
+        rutaImagen = require(`../../assets/imagenes-productos/${producto[0]}.png`);
     } catch (e) {
         rutaImagen = NoImage;
     }

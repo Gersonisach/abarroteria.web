@@ -56,7 +56,7 @@ export default function SearchAppBar() {
                         >
                             Home
                         </Button>
-                        {userData.tipoUsuario !== 'comprador' &&
+                        {userData.tipoUsuario.toLowerCase() !== 'comprador' &&
                             <>
                                 <MenuOptions nombre={'Proveedor'} action={'proveedor'} />
                                 <MenuOptions nombre={'Tipo Producto'} action={'tipo-producto'} />
@@ -66,10 +66,10 @@ export default function SearchAppBar() {
 
                             </>
                         }
-                        {userData.tipoUsuario === 'administrador' &&
+                        {userData.tipoUsuario.toLowerCase() === 'administrador' &&
                             <MenuOptions nombre={'Usuario'} action={'usuario'} />
                         }
-                        {userData.tipoUsuario !== 'bodeguero' &&
+                        {userData.tipoUsuario.toLowerCase() !== 'bodeguero' &&
                             <>
                                 <MenuOptions nombre={'Cliente'} action={'cliente'} />
                                 <MenuOptions nombre={'Pedido'} action={'pedido'} tieneCancelar={true} tieneFinalizar={true} />

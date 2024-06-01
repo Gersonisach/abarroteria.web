@@ -30,13 +30,13 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
             return;
         }
 
-        if (modo === 'actualizar' && page === 'Cliente' && userData.tipoUsuario === 'comprador') {
+        if (modo === 'actualizar' && page === 'Cliente' && userData.tipoUsuario.toLowerCase() === 'comprador') {
             setId(userData.correo);
             buscarUno(userData.correo);
             return;
         }
 
-        if (page === 'Pedido' && userData.tipoUsuario === 'comprador') {
+        if (page === 'Pedido' && userData.tipoUsuario.toLowerCase() === 'comprador') {
             setDataPage({ ...dataPage, id_usuario: userData.id_usuario, id_producto: pedidoId });
             return;
         }
@@ -104,7 +104,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
 
             response = await axios.get(`http://localhost:5000/${page}/findall`);
 
-            if (userData.tipoUsuario === 'comprador') {
+            if (userData.tipoUsuario.toLowerCase() === 'comprador') {
 
                 if (page === 'Pedido' || page === 'Factura') {
                     const filteredData = response.data.filter(item => item[1] === userData.id_usuario);
@@ -208,7 +208,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                 <TitleLeft>{modo === 'crear' ? 'Crear ' : modo === 'actualizar' ? 'Actualizar ' : modo === 'buscartodo' ? 'Buscar Todos ' : modo === 'buscaruno' ? 'Buscar ' : modo === 'cancelar' ? 'Cancelar ' : modo === 'finalizar' ? 'Finalizar ' : 'Eliminar '} {page}</TitleLeft>
                 {modo === 'buscartodo' ? <DataTable name={page} colums={colums} rows={rows} /> :
                     <>
-                        {((modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') && (userData.tipoUsuario !== 'comprador' || page !== 'Cliente')) &&
+                        {((modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') && (userData.tipoUsuario.toLowerCase() !== 'comprador' || page !== 'Cliente')) &&
                             <div style={{ display: 'flex', gap: '20px', marginRight: 'auto', marginLeft: '25px', width: '400px' }}>
                                 <TextField
                                     label={"Busqueda " + page}
