@@ -20,14 +20,25 @@ const HomePage = () => {
 
             const data = response.data;
             if (data && data.length > 0) {
-                setDataPage(data);
+
+                const productosConStock = data.filter(producto => producto[11] > 0);
+                const productosSinStock = data.filter(producto => producto[11] === 0);
+
+                // Ordenar ambos grupos por precio de mayor a menor
+                productosConStock.sort((a, b) => b[6] - a[6]);
+                productosSinStock.sort((a, b) => b[6] - a[6]);
+
+                // Concatenar los productos con stock primero y los sin stock después
+                const productosOrdenados = [...productosConStock, ...productosSinStock];
+
+                setDataPage(productosOrdenados);
             } else {
                 Swal.fire({
                     title: '¡No se encontró ningún producto!',
                     html: 'No se encontraron datos con la búsqueda realizada',
                     icon: 'error',
                     confirmButtonText: 'Aceptar',
-                    confirmButtonColor: 'orange',
+                    confirmButtonColor: 'blue',
                     showCancelButton: false,
                     showCloseButton: false,
                 });
@@ -39,7 +50,7 @@ const HomePage = () => {
                 html: `Se recibió un error de la base de datos, código de error Oracle: <b>${error.response.data}</b>`,
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
-                confirmButtonColor: 'orange',
+                confirmButtonColor: 'blue',
                 showCancelButton: false,
                 showCloseButton: false,
             });
@@ -48,9 +59,9 @@ const HomePage = () => {
     };
 
     return (
-        <BoxMain className='fondo-con-imagen' flexDirection={'column'} gap={'40px'} sx={{paddingTop:'100px'}}>
-            <Box><strong style={{fontSize:'30px'}}>Productos Disponibles</strong></Box>
-            <div style={{width: '100%', height: '100%', display: 'grid', gap: '30px', gridTemplateColumns: 'repeat(auto-fit, minmax(auto, 210px))'}}>
+        <BoxMain className='fondo-con-imagen' flexDirection={'column'} gap={'40px'} sx={{ paddingTop: '100px' }}>
+            <Box><strong style={{ fontSize: '30px' }}>Productos Disponibles</strong></Box>
+            <div style={{ width: '100%', height: '100%', display: 'grid', gap: '30px', gridTemplateColumns: 'repeat(auto-fit, minmax(auto, 210px))' }}>
                 {dataPage?.map((producto, index) => (
                     <CardProducto key={index} producto={producto} />
                 ))}

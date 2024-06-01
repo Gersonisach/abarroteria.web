@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton } from '@mui/material';
 import { Person as PersonIcon, Home as HomeIcon } from '@mui/icons-material';
+import logo from '../../assets/logo.png';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthContext from '../../contexts/AuthContext';
 import Button from '@mui/material/Button';
@@ -22,7 +23,7 @@ export default function SearchAppBar() {
             text: '¿Seguro que desea cerrar sesión?',
             icon: 'warning',
             confirmButtonText: 'Aceptar',
-            confirmButtonColor: 'orange',
+            confirmButtonColor: 'blue',
             cancelButtonText: 'Cancelar',
             cancelButtonColor: 'grey',
             showCancelButton: true,
@@ -42,15 +43,16 @@ export default function SearchAppBar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed">
-                <Toolbar sx={{ backgroundColor: '#B47163', gap: '20px', minHeight: '50px !important' }}>
+                <Toolbar sx={{ backgroundColor: '#0288d1', gap: '20px', minHeight: '50px !important' }}>
+                    <img style={{ width: '60px', height: '60px', objectFit:'contain', objectPosition: 'center', padding:'5px' }} src={logo} alt='img-logo' />
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', fontSize: '11px' }}>
                         <Button
                             variant="contained"
-                            onClick={()=> navigate('/')}
-                            startIcon={<HomeIcon fontSize='small'/>}
+                            onClick={() => navigate('/')}
+                            startIcon={<HomeIcon fontSize='small' />}
                             marginBottom='0px'
                             height='30px'
-                            sx={{ fontSize: '11px', padding: '5px', backgroundColor: 'transparent', borderRadius: '10px', textTransform: 'none', '&:hover': { backgroundColor: '#827676' }}}
+                            sx={{ fontSize: '11px', padding: '5px', backgroundColor: 'transparent', borderRadius: '10px', textTransform: 'none', '&:hover': { backgroundColor: '#827676' } }}
                         >
                             Home
                         </Button>

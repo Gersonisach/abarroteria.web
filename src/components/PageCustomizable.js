@@ -10,7 +10,7 @@ import DataTable from './table/DataTable';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import './styles/BackgroudImagen.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
 
 const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tieneFinalizar }) => {
@@ -21,15 +21,24 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
     const [rows, setRows] = useState([]);
     const navigate = useNavigate();
     const { userData } = useContext(AuthContext);
+    const location = useLocation();
+    const { pedidoId } = location.state || {};
 
     useEffect(() => {
         if (modo === 'buscartodo') {
             buscarTodo();
+            return;
         }
 
-        if(modo === 'actualizar' && page==='Cliente' && userData.tipoUsuario === 'comprador'){
+        if (modo === 'actualizar' && page === 'Cliente' && userData.tipoUsuario === 'comprador') {
             setId(userData.correo);
             buscarUno(userData.correo);
+            return;
+        }
+
+        if (page === 'Pedido' && userData.tipoUsuario === 'comprador') {
+            setDataPage({ ...dataPage, id_usuario: userData.id_usuario, id_producto: pedidoId });
+            return;
         }
 
         setDataPage({ ...data })
@@ -64,7 +73,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                 text: 'Proceso fue satisfactorio.',
                 icon: 'success',
                 confirmButtonText: 'Aceptar',
-                confirmButtonColor: 'orange',
+                confirmButtonColor: 'blue',
                 showCancelButton: false,
                 showCloseButton: false,
             });
@@ -77,7 +86,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                 html: `Se recibió error de la base de datos, código de error Oracle: <b>${error.response.data}</b>`,
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
-                confirmButtonColor: 'orange',
+                confirmButtonColor: 'blue',
                 showCancelButton: false,
                 showCloseButton: false,
             });
@@ -121,7 +130,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                 html: `Se recibió error de la base de datos, código de error Oracle: <b>${error.response.data}</b>`,
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
-                confirmButtonColor: 'orange',
+                confirmButtonColor: 'blue',
                 showCancelButton: false,
                 showCloseButton: false,
             });
@@ -148,7 +157,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                     html: `No se encontraron datos con busqueda realizada`,
                     icon: 'error',
                     confirmButtonText: 'Aceptar',
-                    confirmButtonColor: 'orange',
+                    confirmButtonColor: 'blue',
                     showCancelButton: false,
                     showCloseButton: false,
                 });
@@ -160,7 +169,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                 html: `Se recibió error de la base de datos, código de error Oracle: <b>${error.response.data}</b>`,
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
-                confirmButtonColor: 'orange',
+                confirmButtonColor: 'blue',
                 showCancelButton: false,
                 showCloseButton: false,
             });
@@ -191,7 +200,7 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
             handleOnClickBuscar();
         }
     };
-    
+
 
     return (
         <BoxMain className='fondo-con-imagen'>
@@ -199,12 +208,11 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                 <TitleLeft>{modo === 'crear' ? 'Crear ' : modo === 'actualizar' ? 'Actualizar ' : modo === 'buscartodo' ? 'Buscar Todos ' : modo === 'buscaruno' ? 'Buscar ' : modo === 'cancelar' ? 'Cancelar ' : modo === 'finalizar' ? 'Finalizar ' : 'Eliminar '} {page}</TitleLeft>
                 {modo === 'buscartodo' ? <DataTable name={page} colums={colums} rows={rows} /> :
                     <>
-                        {((modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') && (userData.tipoUsuario !== 'comprador' || page !== 'Cliente') ) &&
+                        {((modo === 'actualizar' || modo === 'buscartodo' || modo === 'buscaruno' || modo === 'eliminar' || modo === 'cancelar' || modo === 'finalizar') && (userData.tipoUsuario !== 'comprador' || page !== 'Cliente')) &&
                             <div style={{ display: 'flex', gap: '20px', marginRight: 'auto', marginLeft: '25px', width: '400px' }}>
                                 <TextField
                                     label={"Busqueda " + page}
                                     variant='outlined'
-                                    color='error'
                                     value={id}
                                     onChange={(e) => setId(e.target.value)}
                                     onKeyDown={handleKeyPress}
@@ -221,7 +229,6 @@ const PageCustomizable = ({ modo, data, page, fields, colums, tieneCancelar, tie
                                     key={field.key}
                                     label={field.label}
                                     variant='outlined'
-                                    color='error'
                                     value={dataPage[field.key]}
                                     onChange={(e) => handleChange(e, field.key)}
                                     type={(field.key === 'contraseña' || field.key === 'clave') ? 'password' : 'text'}

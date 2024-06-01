@@ -7,7 +7,7 @@ const Title = styled('h1')({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '30px',
-    color: '#A53A3A',
+    color: '#0288d1',
     fontWeight: '600',
     fontFamily: 'Nacelle, sans-serif',
     marginLeft: '25px',

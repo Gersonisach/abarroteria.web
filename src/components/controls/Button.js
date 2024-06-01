@@ -11,9 +11,6 @@ const StyledButton = styled(MuiButton)(({ theme, ...props }) => ({
   lineHeight: '26px',
   textAlign: 'left',
   marginBottom: props.marginBottom || '15px',
-  color: props.colorEdit || '#FFFFFF',
-  backgroundColor: props.backgroundColor || '#B47163',
-  '&:hover': { backgroundColor: props.backgroundColorHover || '#B4948E' },
 }));
 
 const Button = ({ isLoading, children, ...props }) => (

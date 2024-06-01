@@ -8,6 +8,7 @@ import Button from '../../components/controls/Button';
 import ButtonCancel from '../../components/controls/ButtonCancel';
 import Title from '../../components/controls/Title';
 import AuthContext from '../../contexts/AuthContext';
+import logo from '../../assets/logo.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../Login/LoginPage.css';
@@ -45,13 +46,13 @@ const LoginPage = () => {
             const data = response.data;
 
             if (data && data.length > 0) {
-                if(data[0][2] !== dataUsuario.clave?.trim()){
+                if (data[0][2] !== dataUsuario.clave?.trim()) {
                     Swal.fire({
                         title: `¡Error!`,
                         html: `Contraseña ingresada no es válida`,
                         icon: 'error',
                         confirmButtonText: 'Aceptar',
-                        confirmButtonColor: 'orange',
+                        confirmButtonColor: 'blue',
                         showCancelButton: false,
                         showCloseButton: false,
                     });
@@ -68,7 +69,7 @@ const LoginPage = () => {
                     html: `No se encontraron usuarios con los datos ingresados`,
                     icon: 'error',
                     confirmButtonText: 'Aceptar',
-                    confirmButtonColor: 'orange',
+                    confirmButtonColor: 'blue',
                     showCancelButton: false,
                     showCloseButton: false,
                 });
@@ -80,7 +81,7 @@ const LoginPage = () => {
                 html: `Se recibió un error de la base de datos, código de error Oracle: <b>${error.response?.data}</b>`,
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
-                confirmButtonColor: 'orange',
+                confirmButtonColor: 'blue',
                 showCancelButton: false,
                 showCloseButton: false,
             });
@@ -109,14 +110,14 @@ const LoginPage = () => {
 
     return (
         <BoxMain className='fondo-con-imagen'>
-            <Box width='60%' height='70%'>
-                <Form id="form-sin-imagen" flex='1' className={loginCliente ? 'form-sin-imagen-left' : 'form-sin-imagen-right'} onSubmit={(e)=> handleOnClickIngresar(e)}>
+            <Box width='60%' height='85%'>
+                <Form id="form-sin-imagen" flex='1' className={loginCliente ? 'form-sin-imagen-left' : 'form-sin-imagen-right'} onSubmit={(e) => handleOnClickIngresar(e)}>
+                    <img style={{ width: '200px', height: '200px', objectFit: 'contain', objectPosition: 'center', padding:'5px' }} src={logo} alt='img-logo' />
                     <Title>{loginCliente ? "Login Cliente" : "Login Administrador"}</Title>
                     <TextField
                         name="correo"
                         label="Correo"
                         variant='outlined'
-                        color='error'
                         value={dataUsuario['correo']}
                         onChange={(e) => handleChange(e, 'correo')}
                     />
@@ -125,7 +126,6 @@ const LoginPage = () => {
                         label="Contraseña"
                         variant='outlined'
                         type='password'
-                        color='error'
                         value={dataUsuario['clave']}
                         onChange={(e) => handleChange(e, 'clave')}
                     />
